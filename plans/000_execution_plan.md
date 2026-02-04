@@ -1,5 +1,4 @@
 # Execution Plan - Phase Zero
-
 ## Purpose
 Translate strategy into ordered execution without writing code.
 This plan defines sequencing, not implementation.
