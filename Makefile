@@ -1,4 +1,5 @@
-.PHONY: sync verify env runbook-sync runbook-verify run train eval plot
+.PHONY: env sync verify runbook-sync runbook-verify run train eval plot \
+        mcp-env mcp-help mcp-servers mcp-sync
 
 env:
 	@bash scripts/session_log.sh artifacts/logs/env.txt true
@@ -21,7 +22,6 @@ verify:
 	@bash scripts/session_log.sh artifacts/logs/presets.txt sh -c "command -v ai-content >/dev/null 2>&1 && ai-content list-presets || echo 'ai-content missing. presets skipped.'"
 	@$(MAKE) runbook-verify
 
-# Optional project commands (edit file names as your project grows)
 run:
 	@bash scripts/session_log.sh artifacts/logs/run.txt uv run python main.py
 
@@ -33,3 +33,17 @@ eval:
 
 plot:
 	@bash scripts/session_log.sh artifacts/logs/plot.txt uv run python plot.py
+
+# ---------------- MCP SECTION ----------------
+
+mcp-env:
+	@bash scripts/session_log.sh artifacts/logs/mcp_env.txt sh -c "ls -la mcp.json 2>/dev/null || echo 'mcp.json missing at repo root'"
+
+mcp-help:
+	@bash scripts/session_log.sh artifacts/logs/mcp_help.txt sh -c "command -v mcp >/dev/null 2>&1 && mcp --help || echo 'mcp cli missing. Replace mcp with correct binary if needed.'"
+
+mcp-servers:
+	@bash scripts/session_log.sh artifacts/logs/mcp_servers.txt sh -c "command -v mcp >/dev/null 2>&1 && mcp servers || echo 'mcp cli missing or servers command unsupported.'"
+
+mcp-sync:
+	@bash scripts/session_log.sh artifacts/logs/mcp_sync.txt sh -c "command -v mcp >/dev/null 2>&1 && mcp sync || echo 'mcp cli missing or sync command unsupported.'"
