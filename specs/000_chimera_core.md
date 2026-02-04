@@ -1,5 +1,4 @@
-# Chimera Core Specification – v0
-
+# Chimera Core Specification - v0
 ## Objective
 Define the foundational intent of Project Chimera.
 This document is the root specification.
