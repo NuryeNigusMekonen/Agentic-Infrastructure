@@ -46,7 +46,6 @@ Rationale: strong consistency, traceability, compliance.
 Vector Database:
 Used for semantic memory and persona recall.
 Rationale: similarity search over long-term experiences.
-
 Both stores are accessed through MCP servers only.
 
 ## MCP Boundary
