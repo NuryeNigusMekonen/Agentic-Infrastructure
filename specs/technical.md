@@ -3,46 +3,115 @@ Technical Requirements
 
 ARCHITECTURE BOUNDARIES
 
-Agent core logic does planning and reasoning
+Agent core logic performs planning and reasoning only.
+Agents do not directly access external systems.
 
-All external access is via MCP tools and resources
+All external access occurs exclusively through MCP tools and MCP resources.
+This includes social platforms, databases, analytics sources, and storage systems.
 
-Orchestrator stores global campaign state
+The Orchestrator maintains global campaign state and lifecycle control.
 
-Task queues decouple Planner, Worker, Judge
+Planner, Worker, and Judge are decoupled via task queues to enable parallelism, fault isolation, and retries.
 
 SYSTEM ROLES
-Planner service
-Reads campaign goals and state. Emits tasks.
 
-Worker pool
-Executes tasks. Produces artifacts.
+Planner Service
+Reads campaign goals, constraints, and global state.
+Emits discrete, executable tasks with explicit acceptance criteria.
 
-Judge service
-Validates outputs. Routes to approve, retry, or human review.
+Worker Pool
+Executes tasks in isolation.
+Produces artifacts and structured outputs without mutating global state.
 
-Human review service
-Shows queue. Captures approvals and edits.
+Judge Service
+Validates Worker outputs against policy, confidence thresholds, and acceptance criteria.
+Routes results to approval, retry, or Human-in-the-Loop review.
+
+Human Review Service
+Presents escalated outputs.
+Captures approve, reject, or edit actions without blocking the system.
 
 DATA MODEL OVERVIEW
-Entities
-Campaign
-Task
-Artifact
-ReviewDecision
-PublishRecord
-MetricEvent
 
-DATA STORAGE GUIDANCE
-Relational store is the system of record for Campaign, Task, ReviewDecision, PublishRecord.
-MetricEvent uses append-heavy writes and time-based queries. Use time partitioning and batch ingestion.
-Vector store holds semantic memory for persona recall and past interactions.
+Core Entities
+
+Campaign
+Defines objectives, budget, target platforms, and lifecycle state.
+
+Task
+Represents a unit of work emitted by the Planner and executed by a Worker.
+
+Artifact
+Represents generated outputs such as text, images, video references, or metrics batches.
+
+ReviewDecision
+Captures Judge or Human approval outcomes and rationale.
+
+PublishRecord
+Records successful content publication events and platform identifiers.
+
+MetricEvent
+Represents time-series engagement data collected post-publication.
+
+DATA STORAGE STRATEGY AND JUSTIFICATION
+
+Relational Database (System of Record)
+
+Used for:
+• Campaign
+• Task
+• ReviewDecision
+• PublishRecord
+
+Rationale:
+• Strong consistency requirements
+• Traceability for governance and audits
+• Clear relational constraints between entities
+
+This data changes relatively infrequently but must be correct.
+
+High-Velocity Video Metadata and Metrics Storage
+
+MetricEvent is append-only and write-heavy.
+
+Characteristics:
+• High ingestion rate
+• Time-series access patterns
+• Platform-specific metric schemas
+• Late or out-of-order arrivals
+
+Strategy:
+• Store MetricEvent in a time-partitioned relational table or a dedicated time-series store
+• Partition by observed_at (daily or hourly)
+• Use batch ingestion from MCP resources
+• Index on (campaign_id, content_id, metric_type, observed_at)
+
+Rationale:
+• Enables efficient aggregation over time windows
+• Supports replay and backfill
+• Maintains analytical consistency
+• Avoids overloading transactional tables
+
+Raw metrics are immutable. Aggregations are computed downstream.
+
+Vector Database
+
+Used for:
+• Semantic memory
+• Persona recall
+• Historical interaction embeddings
+
+Rationale:
+• Similarity search over long-term experience
+• Supports Retrieval-Augmented Generation
+• Decoupled from transactional consistency requirements
+
+All access is mediated through MCP.
 
 API CONTRACTS
 
-Task payload from Planner to Worker
+Task Payload from Planner to Worker
 
-##
 {
   "task_id": "uuid",
   "task_type": "trend_fetch | draft_post | generate_media | publish_post | collect_metrics",
@@ -58,9 +127,10 @@ Task payload from Planner to Worker
   "created_at": "iso8601",
   "status": "pending | in_progress | review | done | failed"
 }
-##
-Worker result payload to Judge
-##
+
+
+Worker Result Payload to Judge
+
 {
   "task_id": "uuid",
   "agent_id": "string",
@@ -79,8 +149,9 @@ Worker result payload to Judge
   "notes": "string",
   "created_at": "iso8601"
 }
-##
-Judge decision payload
+
+
+Judge Decision Payload
 
 {
   "task_id": "uuid",
@@ -93,7 +164,7 @@ Judge decision payload
 }
 
 
-Metric event schema for high-velocity ingestion
+Metric Event Schema for High-Velocity Ingestion
 
 {
   "event_id": "uuid",
@@ -107,32 +178,51 @@ Metric event schema for high-velocity ingestion
   "ingested_at": "iso8601",
   "source": "mcp_resource"
 }
-##
 
-HITL THRESHOLDS
-High confidence. Auto approve
-Medium confidence. Human review
-Low confidence. Reject and retry
+
+HUMAN-IN-THE-LOOP THRESHOLDS
+
+High confidence
+Automatically approved.
+
+Medium confidence
+Routed to Human Review queue.
+
+Low confidence
+Rejected and re-planned.
 
 Sensitive topic override
-Any sensitive classification routes to human review even with high confidence.
+Any sensitive classification triggers Human Review regardless of confidence.
 
 MCP REQUIREMENTS
 
-All platform actions are MCP tools
+All platform actions are executed via MCP tools.
 
-All trend feeds and metrics sources are MCP resources
+All trend feeds and metrics ingestion occur via MCP resources.
 
-Tool calls include minimal payload plus trace ids
+Tool calls include:
+• Minimal payload
+• Trace identifiers
+• Deterministic input hashes
 
-Logs capture tool name, inputs hash, and outputs summary
+Logs capture:
+• Tool name
+• Inputs hash
+• Outputs summary
+• Execution status
 
-NON FUNCTIONAL REQUIREMENTS
+This enables observability, auditing, and replay.
 
-Scale. Worker pool supports parallel tasks
+NON-FUNCTIONAL REQUIREMENTS
 
-Latency. High priority reply workflows target under 10 seconds excluding human review
+Scalability
+Worker pool supports horizontal scaling for parallel task execution.
 
-Reliability. Retries for transient MCP failures with capped attempts
+Latency
+High-priority reply workflows target under 10 seconds excluding Human Review.
 
-Observability. Logs for tasks, decisions, and publish records
+Reliability
+Transient MCP failures trigger bounded retries with exponential backoff.
+
+Observability
+Structured logs exist for tasks, decisions, publish records, and metric ingestion.

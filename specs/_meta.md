@@ -8,87 +8,99 @@ DATE
 February 5, 2026
 
 OWNER
-Nurye
+Nurye Nigus
+
+PURPOSE
+This document defines the authoritative scope, constraints, and success criteria for Project Chimera.
+It is the root specification that governs all other documents in the specs directory.
+
+If any conflict exists, this document takes precedence.
 
 SCOPE
-Project Chimera is an autonomous influencer network. It runs a fleet of persistent influencer agents. Each agent plans, creates, reviews, and publishes content. The system supports human review for risky content. The system tracks performance and costs.
+
+Project Chimera is an autonomous influencer network operating a fleet of persistent agents.
+Each agent plans, creates, reviews, and publishes content under governance rules.
+
+The system enforces Human-in-the-Loop review for sensitive or low-confidence outputs.
+The system tracks performance metrics, costs, and decisions with full traceability.
 
 PRIMARY OUTCOMES
 
-Create and publish on-brand content at scale
-
-Maintain safety via review gates
-
-Maintain traceability via logs and audit records
-
-Support high-velocity metadata ingestion for social and video performance
-
-Support tool-based external actions via MCP only
+• Generate and publish on-brand content at scale
+• Enforce safety via explicit review gates
+• Maintain end-to-end traceability of actions and decisions
+• Ingest high-velocity social and video performance metadata without blocking agents
+• Interact with external systems exclusively via MCP tools and resources
 
 IN SCOPE
 
-Orchestrator control plane for goals, campaigns, and monitoring
-
-Agent runtime based on Planner, Worker, Judge roles
-
-Human review queue and decision logging
-
-Data plane for task state, content artifacts, and performance metadata
-
-MCP boundary for all external integrations
+• Orchestrator control plane for goals, campaigns, and monitoring
+• Agent runtime using Planner, Worker, Judge roles
+• Human review queue and decision logging
+• Data plane for task state, content artifacts, and performance metrics
+• MCP boundary for all external integrations
 
 OUT OF SCOPE FOR THIS PHASE
 
-Full media generation quality tuning
+• Media quality tuning and creative optimization
+• Full multi-platform publishing coverage
+• Token cost optimization strategies
+• Production Kubernetes deployment
+• On-chain commerce execution
 
-Full multi-platform publishing coverage
+NON-NEGOTIABLE CONSTRAINTS
 
-Token cost optimization
+• Spec-Driven Development
+No implementation code is written before specs are ratified.
 
-Production deployment on Kubernetes
+• MCP Boundary
+Agent logic must not call external APIs directly.
+All external access is via MCP tools or MCP resources.
 
-On-chain commerce execution
+• Traceability
+Key inputs, decisions, outputs, and review actions must be logged and auditable.
 
-CONSTRAINTS
+• Safety
+Content involving sensitive domains must route to human review.
 
-Spec-Driven Development. No implementation before specs are ratified
-
-MCP boundary. No direct API calls from agent logic
-
-Traceability. Log key decisions, inputs, outputs, and review actions
-
-Safety. Sensitive topics route to human review
-
-Multi-tenancy ready design, even if single-tenant first
+• Architecture Readiness
+Design must support multi-tenancy even if initially deployed single-tenant.
 
 SUCCESS CRITERIA
 
-A campaign goal produces a task plan and content drafts
+The system is considered compliant with this specification when:
 
-Judge gates are applied before publish actions
-
-Human reviewers can approve or reject within a clear workflow
-
-Video and social metadata is ingested at high write rates without blocking agents
-
-All external actions are visible via MCP tool calls and logs
+• A campaign goal results in a generated task plan
+• Content drafts are produced by Workers and evaluated by Judges
+• Judge gates are enforced before any publish action
+• Human reviewers can approve or reject content through a clear workflow
+• High-frequency video and social metrics are ingested without blocking agent execution
+• All external actions are observable via MCP tool calls and logs
 
 RISK REGISTER
 
-Prompt injection from external content and links
-
-Platform policy changes and API churn
-
-Cost runaway from repeated retries
-
-Safety drift from weak persona constraints
-
-Data growth from high-frequency metrics
+• Prompt injection via external content sources
+• Platform policy changes and API churn
+• Cost runaway from uncontrolled retries
+• Safety drift due to weak persona constraints
+• Unbounded data growth from high-frequency metrics
 
 GLOSSARY
-Orchestrator. Central control plane for goals, budgets, and monitoring
-Planner. Decomposes goals into tasks
-Worker. Executes a single atomic task
-Judge. Validates and gates outputs
-HITL. Human in the loop review
-MCP. Standard interface for tools and resources
+
+Orchestrator
+Central control plane for goals, budgets, and monitoring
+
+Planner
+Decomposes campaign goals into executable tasks
+
+Worker
+Executes a single atomic task
+
+Judge
+Validates outputs and applies safety and policy gates
+
+HITL
+Human-in-the-Loop review
+
+MCP
+Model Context Protocol. Standard interface for tools and resources
