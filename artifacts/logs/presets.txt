@@ -1,0 +1,11 @@
+
+==============================
+2026-02-04 11:55:35
+pwd: /home/nurye/Desktop/TRP1/week0/task3
+user: nurye
+system: Linux nurye 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+python: Python 3.12.3
+uv: uv 0.9.28
+command: sh -c command -v ai-content >/dev/null 2>&1 && ai-content list-presets || echo 'ai-content missing. presets skipped.'
+------------------------------
+ai-content missing. presets skipped.

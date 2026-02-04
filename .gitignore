@@ -1,0 +1,6 @@
+artifacts/outputs/
+artifacts/screens/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
