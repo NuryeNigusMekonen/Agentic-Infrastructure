@@ -1,5 +1,4 @@
 # Task Breakdown - Initial Scope
-
 ## Task Group 1 - Research
 • Read market and ecosystem material
 • Analyze agent social networks
