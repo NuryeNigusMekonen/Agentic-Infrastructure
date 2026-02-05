@@ -16,7 +16,7 @@ OUTPUTS
 ingest_result with counts and time range
 
 OUTPUT SCHEMA
-
+```json
 {
   "campaign_id": "uuid",
   "content_id": "uuid",
@@ -26,8 +26,7 @@ OUTPUT SCHEMA
   "window_start": "iso8601",
   "window_end": "iso8601"
 }
-
-
+```
 DATA NOTES
 Writes are append-heavy. Use batch ingestion. Use time partitioned storage on the database side.
 

@@ -14,7 +14,7 @@ OUTPUTS
 ranked_trends, list of items with relevance score and source refs
 
 OUTPUT SCHEMA
-
+```json
 {
   "agent_id": "string",
   "campaign_id": "uuid",
@@ -29,7 +29,7 @@ OUTPUT SCHEMA
     }
   ]
 }
-
+```
 
 FAILURE MODES
 

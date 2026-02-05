@@ -17,7 +17,7 @@ OUTPUTS
 publish_record with platform post id and timestamp
 
 OUTPUT SCHEMA
-
+```json
 {
   "agent_id": "string",
   "campaign_id": "uuid",
@@ -26,7 +26,7 @@ OUTPUT SCHEMA
   "published_at": "iso8601",
   "disclosure_level": "automated | assisted | none"
 }
-
+```
 
 FAILURE MODES
 
