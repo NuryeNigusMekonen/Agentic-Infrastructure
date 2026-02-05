@@ -1,0 +1,52 @@
+
+==============================
+2026-02-05 21:39:48
+pwd: /home/nurye/Desktop/TRP1/week0/task3
+user: nurye
+system: Linux nurye 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+python: Python 3.12.3
+uv: uv 0.9.28
+command: bash -lc 
+echo '=== MCP STATUS SNAPSHOT ===';
+date;
+ls -l artifacts/logs;
+echo '--- mcp_connected.txt ---';
+cat artifacts/logs/mcp_connected.txt || true;
+echo '--- mcp_servers.txt ---';
+cat artifacts/logs/mcp_servers.txt || true
+
+------------------------------
+=== MCP STATUS SNAPSHOT ===
+Thu 05 Feb 2026 09:39:48 PM EAT
+total 40
+-rw-rw-r-- 1 nurye nurye 463 Feb  4 11:55 help.txt
+-rw-rw-r-- 1 nurye nurye 275 Feb  4 15:40 mcp_connected.txt
+-rw-rw-r-- 1 nurye nurye 441 Feb  4 14:03 mcp_env.txt
+-rw-rw-r-- 1 nurye nurye 497 Feb  4 14:04 mcp_help.txt
+-rw-rw-r-- 1 nurye nurye 474 Feb  4 14:04 mcp_servers.txt
+-rw-rw-r-- 1 nurye nurye 606 Feb  5 21:39 mcp_status_2026-02-05.txt
+-rw-rw-r-- 1 nurye nurye 465 Feb  4 14:04 mcp_sync.txt
+-rw-rw-r-- 1 nurye nurye 471 Feb  4 11:55 presets.txt
+-rw-rw-r-- 1 nurye nurye 477 Feb  4 11:55 providers.txt
+-rw-rw-r-- 1 nurye nurye 464 Feb  4 11:55 sync.txt
+--- mcp_connected.txt ---
+Date: 2026-02-04
+Repo: Project Chimera
+IDE: VS Code
+MCP Config Path: .vscode/mcp.json
+Server Name: tenxfeedbackanalytics
+Server URL: https://mcppulse.10academy.org/proxy
+
+Status: MCP server discovered in VS Code. Start and Stop controls visible. Server started successfully.
+--- mcp_servers.txt ---
+
+==============================
+2026-02-04 14:04:24
+pwd: /home/nurye/Desktop/TRP1/week0/task3
+user: nurye
+system: Linux nurye 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+python: Python 3.12.3
+uv: uv 0.9.28
+command: sh -c command -v mcp >/dev/null 2>&1 && mcp servers || echo 'mcp cli missing or servers command unsupported.'
+------------------------------
+mcp cli missing or servers command unsupported.

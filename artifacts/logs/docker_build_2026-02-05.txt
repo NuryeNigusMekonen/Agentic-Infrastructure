@@ -1,0 +1,69 @@
+
+==============================
+2026-02-05 21:41:04
+pwd: /home/nurye/Desktop/TRP1/week0/task3
+user: nurye
+system: Linux nurye 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+python: Python 3.12.3
+uv: uv 0.9.28
+command: bash -lc 
+docker build -t chimera-task3 .
+
+------------------------------
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 441B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim
+#2 ...
+
+#3 [auth] library/python:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim
+#2 DONE 3.9s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 120B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.84kB done
+#5 DONE 0.0s
+
+#6 [1/7] FROM docker.io/library/python:3.11-slim@sha256:db27ce7778e5f581d5d97812ee577a01a9fffbfa612c47fc521fa684e3389c9b
+#6 resolve docker.io/library/python:3.11-slim@sha256:db27ce7778e5f581d5d97812ee577a01a9fffbfa612c47fc521fa684e3389c9b 0.0s done
+#6 DONE 0.0s
+
+#7 [6/7] RUN uv sync --frozen
+#7 CACHED
+
+#8 [2/7] WORKDIR /app
+#8 CACHED
+
+#9 [4/7] RUN python -m pip install --no-cache-dir --upgrade pip uv
+#9 CACHED
+
+#10 [5/7] COPY pyproject.toml uv.lock ./
+#10 CACHED
+
+#11 [3/7] RUN apt-get update && apt-get install -y --no-install-recommends     curl     ca-certificates     build-essential  && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [7/7] COPY . .
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 exporting manifest sha256:8e9ee783d78c8341d4767f4e76a604ec964065b752998d25c597421f0a512018 done
+#13 exporting config sha256:43e392429254c67c47618418854cc718952a606dc4b805937310e4e50a54b5a9 done
+#13 exporting attestation manifest sha256:a25f6b2586cc63d086b886ba257f60daecbfec06e9d86e21b7cc240babb97ba6 0.0s done
+#13 exporting manifest list sha256:3f806f5a8631dd3812f5f986d304a5109764f70195d5f2bda46cc168a1eab83e
+#13 exporting manifest list sha256:3f806f5a8631dd3812f5f986d304a5109764f70195d5f2bda46cc168a1eab83e 0.0s done
+#13 naming to docker.io/library/chimera-task3:latest done
+#13 unpacking to docker.io/library/chimera-task3:latest done
+#13 DONE 0.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/ol6dxj521g55zyfgqtdx0yw7b

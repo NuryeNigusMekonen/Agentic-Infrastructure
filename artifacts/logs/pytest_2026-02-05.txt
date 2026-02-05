@@ -1,0 +1,37 @@
+
+==============================
+2026-02-05 21:40:22
+pwd: /home/nurye/Desktop/TRP1/week0/task3
+user: nurye
+system: Linux nurye 6.14.0-37-generic #37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+python: Python 3.12.3
+uv: uv 0.9.28
+command: uv run pytest -q
+------------------------------
+F....                                                                    [100%]
+=================================== FAILURES ===================================
+______________ test_skill_modules_exist_and_expose_run_entrypoint ______________
+
+    def test_skill_modules_exist_and_expose_run_entrypoint():
+        missing = []
+        for module_name, fn_name in SKILLS:
+            try:
+                mod = importlib.import_module(module_name)
+            except Exception as e:
+                missing.append(f"{module_name} import failed: {e}")
+                continue
+    
+            if not hasattr(mod, fn_name):
+                missing.append(f"{module_name} missing {fn_name}()")
+    
+>       assert not missing, "Skill interface gaps:\n" + "\n".join(missing)
+E       AssertionError: Skill interface gaps:
+E         skills.skill_trend_fetcher import failed: No module named 'skills'
+E         skills.skill_video_metadata_ingestor import failed: No module named 'skills'
+E         skills.skill_publish_content import failed: No module named 'skills'
+E       assert not ["skills.skill_trend_fetcher import failed: No module named 'skills'", "skills.skill_video_metadata_ingestor import failed: No module named 'skills'", "skills.skill_publish_content import failed: No module named 'skills'"]
+
+tests/test_skills_interface.py:21: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_skills_interface.py::test_skill_modules_exist_and_expose_run_entrypoint
+1 failed, 4 passed in 0.02s
