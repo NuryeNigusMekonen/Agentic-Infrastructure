@@ -1,7 +1,5 @@
 import uuid
 from datetime import datetime, timezone
-
-
 ALLOWED_TASK_TYPES = {
     "trend_fetch",
     "draft_post",

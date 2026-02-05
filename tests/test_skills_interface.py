@@ -1,6 +1,4 @@
 import importlib
-
-
 SKILLS = [
     ("skills.skill_trend_fetcher", "run"),
     ("skills.skill_video_metadata_ingestor", "run"),
