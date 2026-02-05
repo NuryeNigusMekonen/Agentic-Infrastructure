@@ -111,7 +111,7 @@ All access is mediated through MCP.
 API CONTRACTS
 
 Task Payload from Planner to Worker
-
+```json
 {
   "task_id": "uuid",
   "task_type": "trend_fetch | draft_post | generate_media | publish_post | collect_metrics",
@@ -127,10 +127,10 @@ Task Payload from Planner to Worker
   "created_at": "iso8601",
   "status": "pending | in_progress | review | done | failed"
 }
-
+```
 
 Worker Result Payload to Judge
-
+```json
 {
   "task_id": "uuid",
   "agent_id": "string",
@@ -149,10 +149,10 @@ Worker Result Payload to Judge
   "notes": "string",
   "created_at": "iso8601"
 }
-
+```
 
 Judge Decision Payload
-
+```json
 {
   "task_id": "uuid",
   "decision": "approve | reject | escalate",
@@ -162,10 +162,10 @@ Judge Decision Payload
   "next_action": "publish | retry | human_review",
   "created_at": "iso8601"
 }
-
+```
 
 Metric Event Schema for High-Velocity Ingestion
-
+```json
 {
   "event_id": "uuid",
   "campaign_id": "uuid",
@@ -178,7 +178,7 @@ Metric Event Schema for High-Velocity Ingestion
   "ingested_at": "iso8601",
   "source": "mcp_resource"
 }
-
+```
 
 HUMAN-IN-THE-LOOP THRESHOLDS
 

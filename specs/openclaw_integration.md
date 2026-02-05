@@ -41,7 +41,7 @@ raw reviewer notes
 
 SAMPLE STATUS PAYLOAD
 ##
-
+```json
 {
   "agent_id": "chimera_001",
   "display_name": "Chimera Fashion EA",
@@ -56,6 +56,7 @@ SAMPLE STATUS PAYLOAD
   },
   "updated_at": "iso8601"
 }
+```
 ##
 
 SECURITY NOTES
