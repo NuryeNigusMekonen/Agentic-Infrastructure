@@ -47,3 +47,37 @@ mcp-servers:
 
 mcp-sync:
 	@bash scripts/session_log.sh artifacts/logs/mcp_sync.txt sh -c "command -v mcp >/dev/null 2>&1 && mcp sync || echo 'mcp cli missing or sync command unsupported.'"
+# ---------------- GOVERNANCE ----------------
+
+help:
+	@echo ""
+	@echo "Project Chimera - Available Commands"
+	@echo ""
+	@echo "Core:"
+	@echo "  make env            Initialize environment"
+	@echo "  make sync           Sync dependencies"
+	@echo "  make verify         Verify tool availability"
+	@echo ""
+	@echo "Execution:"
+	@echo "  make run            Run main entrypoint"
+	@echo "  make train          Run training pipeline"
+	@echo "  make eval           Run evaluation pipeline"
+	@echo ""
+	@echo "Governance:"
+	@echo "  make spec-check     Validate required specs exist"
+	@echo ""
+	@echo "MCP:"
+	@echo "  make mcp-env        Verify MCP config presence"
+	@echo "  make mcp-servers    List MCP servers"
+	@echo "  make mcp-sync       Sync MCP servers"
+	@echo ""
+
+spec-check:
+	@echo "Validating spec-driven development requirements..."
+	@test -d specs || (echo "ERROR: specs/ directory missing" && exit 1)
+	@test -f specs/_meta.md || (echo "ERROR: specs/_meta.md missing" && exit 1)
+	@test -f specs/functional.md || (echo "ERROR: specs/functional.md missing" && exit 1)
+	@test -f specs/technical.md || (echo "ERROR: specs/technical.md missing" && exit 1)
+	@test -f specs/db_schema.md || (echo "ERROR: specs/db_schema.md missing" && exit 1)
+	@test -f specs/security_model.md || (echo "ERROR: specs/security_model.md missing" && exit 1)
+	@echo "Spec validation passed."
