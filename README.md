@@ -169,3 +169,5 @@ Forward Deployed Engineer Trainee
 Agentic Infrastructure Challenge
 
 ---
+## loom video recoreded 
+https://www.loom.com/share/7f36499ebeac44969fbbe49a6a3705bb
