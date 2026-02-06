@@ -222,7 +222,11 @@ A recorded walkthrough demonstrating:
 [https://www.loom.com/share/7f36499ebeac44969fbbe49a6a3705bb](https://www.loom.com/share/7f36499ebeac44969fbbe49a6a3705bb)
 
 ---
+Acceptance Criteria
+See specs/acceptance_criteria.md.
+Each AC links to endpoints in specs/api_endpoints.md and entities in specs/db_schema.md.
 
+---
 ## Author
 
 Nurye Nigus Mekonen
