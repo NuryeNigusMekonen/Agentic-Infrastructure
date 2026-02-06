@@ -1,21 +1,22 @@
-# Project Chimera
-
-Agentic Infrastructure Challenge - Forward Deployed Engineer (FDE) Trainee
+Project Chimera
+Agentic Infrastructure Challenge
+Forward Deployed Engineer Trainee
 
 ## Overview
 
-Project Chimera is an agentic infrastructure designed to build **autonomous influencer systems** in a controlled, auditable, and scalable way.
+Project Chimera is an **agentic infrastructure** designed to build autonomous influencer systems in a **controlled, auditable, and scalable** way.
 
 This repository does **not** implement influencer behavior.
-It defines the **factory** that allows AI agents to build those behaviors safely.
 
-The focus is on:
+Instead, it defines the **factory and governance layer** that enables AI agents to safely research, plan, generate, review, and publish content once implementation begins.
+
+The primary objective is to demonstrate:
 
 * Spec-Driven Development
-* Agent orchestration
-* Tool and skill boundaries
-* Test-driven governance
-* CI/CD discipline
+* Agent orchestration and governance
+* Clear separation of skills, tools, and intent
+* Test-Driven Development before implementation
+* Production-grade CI/CD and containerization
 
 Intent is the source of truth. Infrastructure enforces it.
 
@@ -23,142 +24,202 @@ Intent is the source of truth. Infrastructure enforces it.
 
 ## Core Principles
 
-### Spec-Driven Development (SDD)
+### Spec-Driven Development
 
-All behavior is defined in specifications before any implementation exists.
-Specs are authoritative. Code must trace back to them.
+All system behavior is defined in specifications **before** any implementation exists.
 
-### Agent Governance
+* Specs are authoritative
+* Code must trace back to specs
+* Tests are written against specs, not features
 
-Agents operate under explicit roles:
+This prevents ambiguity, hallucination, and ungoverned agent behavior.
 
-* Planner
-* Worker
-* Judge
+---
 
-Human-in-the-loop review is enforced for sensitive or low-confidence outputs.
+### Agent Governance Model
 
-### Skills vs Tools
+Agents operate under explicit, enforced roles:
 
-* **Skills** are internal, reusable agent capabilities with strict contracts.
-* **Tools** are external integrations accessed only through MCP.
+* Planner. Decomposes goals into tasks
+* Worker. Executes a single atomic task
+* Judge. Validates outputs against policy and quality gates
 
-Agents never call external systems directly.
+Human-in-the-Loop review is mandatory for:
 
-### Traceability
+* Low confidence outputs
+* Sensitive topics
+* Policy-flagged content
 
-Every decision, task, and artifact is traceable via:
+---
 
-* Specs
-* Logs
+### Skills vs Tools Boundary
+
+* **Skills** are internal, reusable agent capabilities with strict input and output contracts
+* **Tools** are external integrations accessed only through MCP servers
+
+Agents are **not allowed** to call external APIs directly.
+
+This boundary enforces security, auditability, and repeatability.
+
+---
+
+### Traceability and Auditability
+
+Every decision and artifact is traceable through:
+
+* Specifications
 * Tests
+* Logs
 * CI execution
+* MCP telemetry
+
+This enables post-hoc analysis, debugging, and governance.
 
 ---
 
 ## Repository Structure
 
 ```
-specs/        Authoritative intent and contracts
-research/     Architectural and tooling strategy
-skills/       Runtime skill interfaces (no implementations)
-tests/        Test-driven definitions of expected behavior
-docs/         Runbooks and supporting documentation
-artifacts/    Logs and execution evidence
-.github/      CI workflows and governance
+specs/        System intent, contracts, and constraints
+research/     Architectural reasoning and tooling strategy
+skills/       Runtime skill interfaces (no business logic)
+tests/        Test-Driven definitions of expected behavior
+docs/         Runbooks and evaluation documentation
+artifacts/    Logs, execution evidence, and MCP traces
+.github/      CI/CD workflows and governance
 .vscode/      IDE agent rules and MCP configuration
 ```
+
+Each directory exists to satisfy a specific governance or scalability requirement.
 
 ---
 
 ## Specifications
 
-The `specs/` directory defines the system blueprint:
+The `specs/` directory is the **single source of truth**.
 
 * `_meta.md`
-  Vision, constraints, success criteria, and risks
+  Vision, constraints, success criteria, risks, and glossary
 
 * `functional.md`
-  User stories and acceptance criteria
+  User stories and acceptance criteria for agent behavior
 
 * `technical.md`
-  API contracts, data models, non-functional requirements
+  API contracts, data models, non-functional requirements, and storage guidance
 
 * `context_engine.md`
-  Context normalization and task-scoped reasoning interface
+  Context normalization, task-scoped reasoning, freshness rules, and audit hooks
 
 * `openclaw_integration.md`
-  Agent social network integration strategy
+  Strategy for agent discovery and participation in agent social networks
 
-No implementation is allowed without spec alignment.
+No implementation is permitted unless it maps directly to these specs.
 
 ---
 
-## Skills
+## Skills Architecture
 
 The `skills/` directory contains **scaffolded runtime skills**.
 
 Each skill:
 
 * Is a Python package
-* Exposes a `run(payload)` entrypoint
-* Documents its input and output contract
-* Contains no business logic yet
+* Exposes a `run(payload: dict) -> dict` entrypoint
+* Documents its contract in a README
+* Contains **no implementation logic**
 
-Skills are intentionally minimal to support TDD and prevent premature coupling.
+This is intentional.
+
+The goal is to define **clear interfaces first**, enabling agents to later fill in logic without ambiguity.
 
 ---
 
 ## Testing Strategy
 
-Tests define the **expected shape of the system** before it exists.
+This project follows **true Test-Driven Development**.
 
-Current tests verify:
+Tests are written **before implementation** to define the system’s expected shape.
 
-* Skill interfaces exist and are importable
-* Entry points conform to contracts
-* Future agent behavior has clear goalposts
+Current tests validate:
+
+* Skill modules are importable
+* Entry points exist and match contracts
+* Agent interfaces align with specs
 
 Passing tests confirm infrastructure correctness, not feature completeness.
 
+Failing tests historically demonstrated the “empty slot” agents are expected to fill.
+
 ---
 
-## Tooling and Automation
+## Backend, Data, and Frontend Scope Clarification
 
-* Python environment managed with `uv`
-* Docker encapsulates execution environment
-* Makefile standardizes workflows
+This challenge evaluates **infrastructure readiness**, not feature delivery.
+
+* Backend behavior is specified via API contracts and agent roles
+* Data models and storage strategy are defined in specs
+* Frontend concerns are intentionally deferred until agent workflows are implemented
+
+This aligns with Spec-Driven Development and prevents premature coupling.
+
+---
+
+## Tooling, Automation, and CI/CD
+
+* Python environment managed using `uv`
+* Docker encapsulates the runtime environment
+* Makefile standardizes repeatable workflows
 * GitHub Actions runs CI on every push
 
-CI builds the container and runs tests to enforce discipline.
+CI performs:
+
+* Container build
+* Test execution
+* Governance enforcement
 
 ---
 
 ## MCP and Observability
 
-The Tenx MCP Sense server is connected during development to capture:
+Tenx MCP Sense is connected during development to capture:
 
 * Agent interactions
 * Decision flow
 * Tool usage
+* Reasoning traces
 
-MCP provides observability without contaminating agent logic.
+This provides observability without polluting agent logic.
 
 ---
 
 ## Status
 
-This repository is **ready for agent-driven implementation**.
+This repository is **implementation-ready**.
 
-All foundations are in place:
+All foundations are complete:
 
-* Specs ratified
+* Specifications ratified
 * Skills defined
 * Tests passing
 * CI green
+* Containerization complete
 * Governance enforced
 
 Implementation will begin only after explicit approval.
+
+---
+
+## Loom Walkthrough
+
+A recorded walkthrough demonstrating:
+
+* Spec structure
+* CI passing
+* TDD approach
+* Skills vs Tools separation
+* IDE agent context
+
+[https://www.loom.com/share/7f36499ebeac44969fbbe49a6a3705bb](https://www.loom.com/share/7f36499ebeac44969fbbe49a6a3705bb)
 
 ---
 
@@ -169,5 +230,3 @@ Forward Deployed Engineer Trainee
 Agentic Infrastructure Challenge
 
 ---
-## loom video recoreded 
-https://www.loom.com/share/7f36499ebeac44969fbbe49a6a3705bb
